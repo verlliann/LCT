@@ -3,7 +3,7 @@ from config import Config
 from models import db, Camera
 from api import initialize_api
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='static/suiteV.5')
 app.config.from_object(Config)
 db.init_app(app)
 initialize_api(app)
@@ -11,7 +11,7 @@ initialize_api(app)
 @app.route('/')
 def index():
     cameras = Camera.query.all()
-    return render_template('index.html', cameras=cameras)
+    return render_template('LCT_Repo/2.html', cameras=cameras)
 
 @app.route('/add_camera', methods=['POST'])
 def add_camera():
