@@ -21,7 +21,7 @@ api = ModelAPI("drone_detection.pt")
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('2.html')
 
 @app.route('/upload_photo', methods=['POST'])
 def upload_photo():
