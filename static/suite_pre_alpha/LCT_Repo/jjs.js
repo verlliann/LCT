@@ -1,95 +1,30 @@
 document.addEventListener("DOMContentLoaded", function() {
-    let videoPlayer = document.getElementById('videoplayer');
-    let progressBar = document.getElementById('video-hud__progress-bar');
-    let currTime = document.getElementById('video-hud__curr-time');
-    let durationTime = document.getElementById('video-hud__duration');
-    let actionButton = document.getElementById('video-hud__action');
-    let muteButton = document.getElementById('video-hud__mute');
-    let volumeScale = document.getElementById('video-hud__volume');
-    let speedSelect = document.getElementById('video-hud__speed');
-    let timeDisplay = document.getElementById("video-hud__duration");
-    let timeDisplayStart = document.getElementById("video-hud__curr-time");
-    let fullScreen = document.getElementById("fullScreen");
-    let addButtonVideo = document.getElementById("addVideo");
-    let progressBarVolume = document.getElementById("video-hud__volume");
     let webLinkd = document.getElementById("webLinkd");
     let webLinkdButton = document.getElementById("webLinkdButton");
-    let currentVolume = videoPlayer.volume;
+    let buttonDialogGet2 = document.getElementById("button_dialog_get_2");
+    let dialog1 = document.getElementById("dialog_1");
+    let dialog2 = document.getElementById("dialog_2");
+    let buttonDialogLink = document.getElementById("button_dialog_link");
+    let addButtonPhoto = document.getElementById("addButtonPhoto");
+    let addButtonVideo = document.getElementById("addButtonVideo");
     let count = 0;
-    function videoAct() { //Запускаем или ставим на паузу
-        if(videoPlayer.paused) {
-            videoPlayer.play();
-            actionButton.setAttribute('class','video-hud__element video-hud__action video-hud__action_play');
-            console.log("GOOOOOD")
-            console.log(document.fullscreenEnabled)
-        } else {
-            videoPlayer.pause();
-            actionButton.setAttribute('class','video-hud__element video-hud__action video-hud__action_pause');
-        }
-    }   ;
-    // Функция для форматирования времени в формате MM:SS
-    function formatTime(timeInSeconds) {
-        const minutes = Math.floor(timeInSeconds / 60);
-        const seconds = Math.floor(timeInSeconds % 60);
-        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    };
-    // Обновление отображения времени при загрузке метаданных видео
-    videoPlayer.addEventListener('loadedmetadata', function() {
-        timeDisplay.textContent = `00:00 / ${formatTime(videoPlayer.duration)}`;
-    });
-    videoPlayer.addEventListener('timeupdate', function() {
-        timeDisplayStart.textContent = `${formatTime(videoPlayer.currentTime)}`;
-    });
-    // Обновление отображения времени во время воспроизведения
-    videoPlayer.addEventListener('timeupdate', function() {
-        timeDisplay.textContent = `${formatTime(videoPlayer.duration)}`;
-    });
-    // Функция для обновления ползунка range и заполненной части
-    function updateRange() {
-        const value = (videoPlayer.currentTime / videoPlayer.duration) * 100;
-        progressBar.value = `${value}`;
-    };
-    progressBar.addEventListener('click', function(e) {
-        let time = (e.offsetX * videoPlayer.duration)/progressBar.clientWidth;
-        progressBar.value = (e.offsetX * 100)/progressBar.clientWidth;
-        videoPlayer.currentTime = time;
-        progressBar.blur();
-    });
-    function addVideoFile(e) {
-        let file = e.target.files[0];
-        console.log(e.target.files[0].name);
-        console.log("Имя загруженного файла")
-        let url = URL.createObjectURL(file);
-        console.log(url);
-        console.log("Бинарная кодировка")
-        console.log(e.target.baseURI)
-        console.log("Путь к проекту")
-        videoPlayer.src = url;
-    };
-    function updateRangeVolume() {
-        videoPlayer.volume = this.value/100;
-        //100 для того, что бы не было ошибки,
-        // т.к. звук изменяется от 0.0 до 1.0
-    };
-    // Добавляем обработчик события timeupdate к видео
-    videoPlayer.addEventListener('timeupdate', updateRange);
-    //Запуск, пауза
-    actionButton.addEventListener('click',videoAct);
-    videoPlayer.addEventListener('click',videoAct);
-    //Добавить видео
-    addButtonVideo.addEventListener('change', addVideoFile);
-    // Изменить громкость
-    progressBarVolume.addEventListener('input', updateRangeVolume);
-    // Убрать/Включить громкость
-    muteButton.addEventListener('click', function () {
-        if (videoPlayer.volume > 0) {
-            currentVolume = videoPlayer.volume;
-            videoPlayer.volume = 0;
-        } else {
-            videoPlayer.volume = currentVolume;
-        }
-    });
 
+    function isShow1() { //---ФУНКЦИЯ МЕНЯЕТ КЛАССЫ, Т.Е. СКРЫВАЕТ И ПОКАЗЫВАЕТ ФОРМУ 1 ДИАЛОГОВОГО ОКНА---//
+        if (dialog1.classList == 'dialog_1') {
+            dialog1.setAttribute('class', 'showDialog1')
+        } else {
+            dialog1.setAttribute('class', 'dialog_1')
+        }
+    };
+    function isShow2() { //---ФУНКЦИЯ МЕНЯЕТ КЛАССЫ, Т.Е. СКРЫВАЕТ И ПОКАЗЫВАЕТ ФОРМУ 2 ДИАЛОГОВОГО ОКНА---//
+        if (dialog2.classList == 'dialog_2') {
+            dialog2.setAttribute('class', 'showDialog2')
+        } else {
+            dialog2.setAttribute('class', 'dialog_2')
+        }
+    };
+
+    //Создание нового потока
     webLinkd.addEventListener('keydown', function (e) {
         console.log(e.target.value);
         console.log(e.key);
@@ -121,7 +56,20 @@ document.addEventListener("DOMContentLoaded", function() {
             count++
         }
     });
-    webLinkdButton.addEventListener('click', function (e) {
+    //Показать первое диалоговое окно
+    webLinkdButton.addEventListener('click', isShow1);
+    //Показать второе диалоговое окно
+    buttonDialogLink.addEventListener('click', isShow2);
+    //Закрыть первое диалоговое окно
+    document.getElementById("close1").addEventListener('click', function (e) {
+        e.target.parentElement.setAttribute('class', 'showDialog1')
+    });
+    //Закрыть второе диалоговое окно
+    document.getElementById("close2").addEventListener('click', function (e) {
+        e.target.parentElement.setAttribute('class', 'showDialog2')
+    });
+    //Добавление ссылки
+    buttonDialogGet2.addEventListener('click', function (e) {
         console.log("addOnlineEnter")
         let newOnline = document.createElement('iframe');
         newOnline.setAttribute('src', `${document.getElementById('webLinkd').value}`)
@@ -147,14 +95,67 @@ document.addEventListener("DOMContentLoaded", function() {
         e.target.value ='';
         count++
     });
+    // const fileInputVideo = document.getElementById('addVideo');
+    // const fileInputPhoto = document.getElementById('addPhoto');
+    // function openWindowWithDelay(url, delayMillis) {
+    //     setTimeout(() => {
+    //         window.open(url, "_blank");
+    //     }, delayMillis);
+    //     const html = `<head><meta charset='UTF-8'><title>Test</title></head><body><p>Text.</p></body>`;
+    //     window.open('about:blank').document.documentElement.innerHTML = html;
+    // }       
+    // fileInputVideo.addEventListener('change', (event) => {
+    //     const selectedFile = event.target.files[0];
+    //     if (selectedFile) {
+    //         const fileUrl = URL.createObjectURL(selectedFile);
+    //         openWindowWithDelay(fileUrl, 0);
+    //     }
+    // });
+    // fileInputPhoto.addEventListener('change', (event) => {
+    //     const selectedFile = event.target.files[0];
+    //     if (selectedFile) {
+    //         const fileUrl = URL.createObjectURL(selectedFile);
+    //         openWindowWithDelay(fileUrl, 0);
+    //     }
+    // });
+    function playSelectedVideo(event) {
+        const video = document.getElementById("selectedVideo");
+        const file = event.target.files[0];
+        if (file) {
+            const videoURL = URL.createObjectURL(file);
+            video.src = videoURL;
+            const html = `<head>
+            <meta charset='UTF-8'>
+            <title>Test</title>
+            </head>
+            <body>
+            <video id="selectedVideo" src='${videoURL}' autoplay controls></video>
+            <a href="${videoURL}" download>Скачать</a>
+            </body>`;
+                    setTimeout(() => {
+                    window.open('about:blank').document.documentElement.innerHTML = html;
+            }, 0);
+        }
+    }
+    function playSelectedPhoto(event) {
+        const photo = document.getElementById("selectedImage");
+        const file = event.target.files[0];
+        if (file) {
+            const photoURL = URL.createObjectURL(file);
+            photo.src = photoURL;
+            const html = `<head>
+            <meta charset='UTF-8'>
+            <title>Test</title>
+            </head>
+            <body>
+            <img id="selectedImage" src="${photoURL}" alt="Выбранное фото">
+            <a href="${photoURL}" download>Скачать</a>
+            </body>`;
+                    setTimeout(() => {
+                    window.open('about:blank').document.documentElement.innerHTML = html;
+            }, 0);
+        }
+    }
+    document.getElementById("addVideo").addEventListener('change', playSelectedVideo)
+    document.getElementById("addPhoto").addEventListener('change', playSelectedPhoto)
 });
-console.log(document.getElementById("addPhoto").addEventListener("change", function (e) {
-    let file = e.target.files[0];
-    console.log(e.target.files[0].name);
-    console.log("Имя загруженного файла")
-    let url = URL.createObjectURL(file);
-    console.log(url);
-    console.log("Бинарная кодировка")
-    console.log(e.target.baseURI)
-    console.log("Путь к проекту")    
-}))
