@@ -1,14 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
-    let videoPlayer = document.getElementById('videoplayers');
+
     let addVideo =document.getElementById("addVideo");
-    function videoAct() { //Запускаем или ставим на паузу
-        if(videoPlayer.paused) {
-            videoPlayer.play();
-        } else {
-            videoPlayer.pause();
-        }
-    };
-    videoPlayer.addEventListener('click',videoAct);
+
     addVideo.addEventListener('change', function (event) {
         console.log(event.target.files.length)
         for (let photoCount = 0; photoCount < event.target.files.length; photoCount++) {
@@ -21,8 +14,15 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(response => response.json())
             .then(data => {
                 console.log('Photo uploaded successfully:', data);
-                let img = document.getElementById('videoplayers');
+                let texts = document.createElement('label');
+                texts.id = 'texts';
+                document.getElementById('sidebar').appendChild(texts);
+                document.getElementById('texts').innerHTML = 'Файл создан';
+                let img = document.createElement('img');
                 img.src = data.result_path;
+                img.className='videoplayers';
+                img.id="videoplayers";
+                document.getElementById('video-placeholder').appendChild(img);
             })
         }
     })
