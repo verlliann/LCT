@@ -3,101 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Сервис детектирования БПЛА</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
-    <header>
-        <nav aria-label="Primary">
-            <a href="{{ url_for('index') }}"><button>Камеры</button></a>
-            <a href="{{ url_for('photos') }}"><button>Фото</button></a>
-            <a href="{{ url_for('videos') }}"><button>Видео</button></a>
-        </nav>
-        <nav aria-label="Secondary">
-            <button>Настройки</button>
-            <button>Выход</button>
-        </nav>
-    </header>
-    <div class="container">
-        <aside class="sidebar">
-            <button id="addCameraBtn">Добавить камеру</button>
-            <div id="cameraList">
-                {% for camera in cameras %}
-                    <div class="camera">
-                        <span>{{ camera.name }}</span>
-                        <span>{{ camera.ip_address }}:{{ camera.port }}</span>
-                    </div>
-                {% endfor %}
-            </div>
-        </aside>
-        <main class="main">
-            <canvas id="videoCanvas"></canvas>
-            <div class="timeline" id="timeline">
-                <div class="timeline-progress" id="timelineProgress"></div>
-            </div>
-            <button onclick="testCameraAPI()">Test Camera API</button>
-        </main>
-    </div>
-    <section class="event-log">
-        <table>
-            <thead>
-                <tr>
-                    <th onclick="sortTable(0)">Время</th>
-                    <th onclick="sortTable(1)">Тип</th>
-                    <th onclick="sortTable(2)">Приоритет</th>
-                </tr>
-            </thead>
-            <tbody id="eventLogBody">
-                <tr>
-                    <td>12:00</td>
-                    <td>Детектирован БПЛА</td>
-                    <td>Высокий</td>
-                </tr>
-                <tr>
-                    <td>12:05</td>
-                    <td>БПЛА потерян</td>
-                    <td>Средний</td>
-                </tr>
-                <tr>
-                    <td>12:10</td>
-                    <td>Детектирован БПЛА</td>
-                    <td>Высокий</td>
-                </tr>
-                <tr>
-                    <td>12:15</td>
-                    <td>Нет сигнала</td>
-                    <td>Низкий</td>
-                </tr>
-                <tr>
-                    <td>12:20</td>
-                    <td>Детектирован БПЛА</td>
-                    <td>Высокий</td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-    <!-- Модальное окно для добавления камеры -->
-    <div id="addCameraModal" class="modal">
-        <div class="modal-content">
-            <span class="closeBtn">&times;</span>
-            <h2>Добавить новую камеру</h2>
-            <form id="addCameraForm" action="/add_camera" method="post">
-                <label for="cameraName">Название камеры:</label>
-                <input type="text" id="cameraName" name="cameraName" required>
-                <label for="cameraIP">IP адрес камеры:</label>
-                <input type="text" id="cameraIP" name="cameraIP" required>
-                <label for="cameraPort">Порт:</label>
-                <input type="number" id="cameraPort" name="cameraPort" required>
-                <button type="submit">Добавить</button>
-            </form>
+    <title>Alps Search</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Cactus+Classical+Serif&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Sundanese:wght@400..700&family=Quicksand:wght@300..700&family=Reddit+Mono:wght@200..900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/main.js"></script>
+</head> 
+<body>    <!-- https://rtsp.me/embed/e3kHdzed/-->
+    <div class="header">
+
+
+        <div class="logo_main"> 
+           
+            <div class="logo">
+                <div class="text_Alps">Alps_</div> 
+                <div class="text_Search">Search</div>
+            </div> 
+        </div>
+        <div class="header-text">Система мониторинга воздушного пространства<br>2024, Test version</div>
+        <div class="header-buttons">
+            <label for="CAM" id="CAM">Онлайн-камеры</label>
+            <label id="addButtonVideo" onclick="location.href='/video'">Видеозапись</label>
+
+            <label id="addButtonPhoto" onclick="location.href='/photo'">Фотография</label>
         </div>
     </div>
-    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
-    <script>
-        function testCameraAPI() {
-            const dummyImageData = "base64encodedImageData"; // Replace with actual image data
-            sendCameraImage(dummyImageData);
-        }
-    </script>
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-title">Замеченные объекты</div>
+            <table>
+                <thead>
+                    <tr>
+                            
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="content">
+            <div class="webLink" id="webLinkdButton"> <span>+</span></div> <!--  show_webLinkdButton -->
+            <div class="showDialog1" id="dialog_1"> 
+                <div class="logo_blue"></div>
+                <div class="logo_black"></div>
+                <img src="static/images/close.png" id="close1"> </img>
+                <button class="button_dialog" id="button_dialog_link"> Ссылка на видеокамеру </button>
+                <button class="button_dialog" id="button_dialog_autoriz"> Данные авторизации </button>
+            </div>
+            <div class="showDialog2" id="dialog_2">
+                <div class="logo_blue"></div>
+                <div class="logo_black"></div>
+                <img src="static/images/close.png" id="close2"> </img>
+                <input type="text" id="webLinkd" class="webLinkd" placeholder="Ссылка">
+                <button class="button_dialog_2" id="button_dialog_get_2"> Добавить </button>
+            </div>
+            <div class="video-placeholder" id="video-placeholder">
+             <iframe class='videoplayer' id="videoplayer" allowfullscreen>      </iframe>  
+            </div> 
+        </div>
+        <div class="showFocus_screen2" id="focus_screen2"></div>
+    </div>
+        <div class="showFocus_screen" id="focus_screen"></div> 
 </body>
 </html>

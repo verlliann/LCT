@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alps Search</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Cactus+Classical+Serif&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Sundanese:wght@400..700&family=Quicksand:wght@300..700&family=Reddit+Mono:wght@200..900&display=swap" rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/photo_style.css">
+    <script src="/static/js/photo_js.js" defer></script>
+</head>
+<body>
+    <div class="header">
+        <div class="logo_main"> 
+            <div class="logo">
+                <div class="text_Alps">Alps_</div> 
+                <div class="text_Search">Search</div>
+            </div> 
+        </div>
+        <div class="header-text">Система мониторинга воздушного пространства<br>2024, Test version</div>
+
+        <div class="header-buttons">
+            <label for="CAM" id="CAM" onclick="location.href='/'">Онлайн-камеры</label>
+            <label for="addVideo" id="addButtonVideo" onclick="location.href='/video'">Видеозапись</label>
+
+            <label id="addButtonPhoto" onclick="location.href='/photo'">Фотография</label>
+
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-title">Информация об объектах</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th id="text_time">Время </th>
+                        <th>Тип</th>
+                        <th>Приоритет</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Здесь будут строки с данными -->
+                </tbody>
+            </table>
+        </div>
+        <div class="content">
+            <label for="addVideo" id="addButtonPhotoClick">Добавить фото</label>
+            <input type="file" accept="photo/*" id="addVideo" name="addVideo" multiple hidden>
+            <div class="content-title" id="">Фотография</div>
+            <div class="video-placeholder" id="video-placeholder">  <!--Форма\рамка для плеера-->
+                <video class='videoplayers' id="videoplayers" src=""></video>
+            </div> 
+            <div class='video-hud'>
+            </div>
+        </div>
+
+</body>
+</html>
+<!-- Размещать скрипты в секции head нужно только в том случае, если на то есть причины. Например, без JS на странице не отображается вообще никакой контент. Но если таких причин нет, и вы беспокоитесь о скорости загрузки страницы, то лучше JavaScript 
+    добавить в HTML-код в самом конце документа, перед закрывающим тегом </body>.-->
