@@ -21,11 +21,8 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(response => response.json())
             .then(data => {
                 console.log('Photo uploaded successfully:', data);
-                let img = document.createElement('img');
+                let img = document.getElementById('videoplayers');
                 img.src = data.result_path;
-                //var videoplayer = document.getElementById("videoplayers");
-                //videoplayer.parentNode.removeChild(videoplayer);
-                document.getElementById('video-placeholder').appendChild(img);
             })
         }
     })

@@ -13,22 +13,59 @@ class ModelAPI:
         return annotated_img
 
     def video_predict(self, video):
+        # Проверка существования входного видеофайла
+        if not os.path.isfile(video):
+            print(f"Ошибка: Видео файл {video} не существует.")
+            return None
+
         cap = cv2.VideoCapture(video)
-        output_file = os.path.join('static/results', "output_video.avi")
-        fourcc = cv2.VideoWriter_fourcc(*'XVID')
+
+        # Проверка успешного открытия видео
+        if not cap.isOpened():
+            print(f"Ошибка: Невозможно открыть видео файл {video}.")
+            return None
+
+        # Подготовка выходного файла и директории
+        output_dir = 'static/results/'
+        os.makedirs(output_dir, exist_ok=True)
+        output_file = os.path.join(output_dir, os.path.basename(video))
+
+        # Инициализация VideoWriter
+        fourcc = cv2.VideoWriter_fourcc(*'H264')
         out = cv2.VideoWriter(output_file, fourcc, 20.0, (640, 480))
 
-        while cap.isOpened():
+        if not out.isOpened():
+            print(f"Ошибка: Невозможно открыть выходной файл {output_file} для записи.")
+            return None
+
+        frame_count = 0
+        while True:
             ret, frame = cap.read()
             if not ret:
                 break
+
             results = self.model(frame)
             annotated_frame = results[0].plot()
+
+            # Проверка размеров кадра
+            if annotated_frame.shape[1] != 640 or annotated_frame.shape[0] != 480:
+                print(
+                    f"Предупреждение: Размер кадра {annotated_frame.shape} не соответствует ожидаемому (640, 480). Изменение размера кадра.")
+                annotated_frame = cv2.resize(annotated_frame, (640, 480))
+
             out.write(annotated_frame)
+            frame_count += 1
 
         cap.release()
         out.release()
         cv2.destroyAllWindows()
+
+        if frame_count == 0:
+            print("Предупреждение: Ни один кадр не был обработан.")
+        else:
+            print(f"Обработка завершена. Всего обработано кадров: {frame_count}")
+
+        print(f"Выходной файл сохранен в {output_file}")
         return output_file
 
     def stream_camera(self):

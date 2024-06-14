@@ -20,12 +20,9 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Photo uploaded successfully:', data);
-                let img = document.createElement('img');
-                img.src = data.result_path;
-                //var videoplayer = document.getElementById("videoplayers");
-                //videoplayer.parentNode.removeChild(videoplayer);
-                document.getElementById('video-placeholder').appendChild(img);
+                console.log('Photo uploaded successfully:', data.output_file);
+                let video = document.getElementById('videoplayers');
+                video.src = data.output_file;
             })
         }
     })
