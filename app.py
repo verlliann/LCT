@@ -17,31 +17,50 @@ if not os.path.exists(UPLOAD_FOLDER):
 if not os.path.exists(RESULT_FOLDER):
     os.makedirs(RESULT_FOLDER)
 
-api = ModelAPI("drone_detection.pt")
+api = ModelAPI("static/python/drone_prediction_model.pt")
+
 
 @app.route('/')
 def index():
-    return render_template('2.html')
+    return render_template('index.html')
+
+
+@app.route('/video')
+def video():
+    return render_template('video.html')
+
+
+@app.route('/photo')
+def photo():
+    return render_template('photo.html')
+
 
 @app.route('/upload_photo', methods=['POST'])
 def upload_photo():
     file = request.files['photo']
+    print(file)
     if file:
+        print(f"Received photo: {file.filename}")
         img = cv2.imdecode(np.frombuffer(file.read(), np.uint8), cv2.IMREAD_COLOR)
         annotated_img = api.photo_predict(img)
-        result_path = os.path.join(app.config['RESULT_FOLDER'], 'result.jpg')
+        result_path = os.path.join(app.config['RESULT_FOLDER'], file.filename)
         cv2.imwrite(result_path, annotated_img)
-        return jsonify({'result_path': result_path})
+        print(f"Saved annotated photo to: {result_path}")
+        return jsonify({'result_path': url_for('result_file', filename=file.filename)})
     return "No file provided", 400
+
 
 @app.route('/upload_video', methods=['POST'])
 def upload_video():
     file = request.files['video']
     if file:
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], 'input_video.mp4')
+        print(f"Received video: {file.filename}")
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(file_path)
+        print(f"Saved video to: {file_path}")
         output_file = api.video_predict(file_path)
-        return jsonify({'output_file': output_file})
+        print(f"Processed video saved to: {output_file}")
+        return jsonify({'output_file': url_for('uploaded_file', filename=file.filename)})
     return "No file provided", 400
 
 @app.route('/stream_video')
@@ -50,8 +69,7 @@ def stream_video():
 
 @app.route('/stream', methods=['GET'])
 def stream():
-    return Response(api.stream_camera(),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(api.stream_camera(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/static/uploads/<filename>')
 def uploaded_file(filename):
