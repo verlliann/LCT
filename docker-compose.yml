@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  lct: 
+    container_name: lct03
+    image: lct03
+    # build:
+      # context: .
+    # flask requires SIGINT to stop gracefully
+    # (default stop signal from Compose is SIGTERM)
+    # stop_signal: SIGINT
+    ports:
+      - '8001:80'
