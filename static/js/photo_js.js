@@ -46,14 +46,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
         button.addEventListener('click', function() {
             fetch('/get-archive-link')
-                .then(response => response.json())
-                .then(data => {
-                    let a = document.createElement('a');
-                    a.href = data.link;
-                    a.download = 'archive.zip';
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = 'archive.zip'; // Имя файла при скачивании
                     document.body.appendChild(a);
                     a.click();
-                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
                 })
                 .catch(error => console.error('Error fetching archive link:', error));
         });

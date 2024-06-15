@@ -3,17 +3,6 @@ from static.python.model import ModelAPI
 import cv2
 import os
 import numpy as np
-from io import BytesIO
-import zipfile
-
-"""import boto3
-session = boto3.session.Session()
-s3 = session.client(
-    service_name='s3',
-    endpoint_url='http://192.168.50.253:9000',
-    aws_access_key_id='ycGENBV4Kj1mtuMUGntC',
-    aws_secret_access_key='Qz33HbdT2fvwNJX8lMUwc353uacFWqOWwYjP975w'
-)"""
 
 app = Flask(__name__)
 
@@ -52,24 +41,8 @@ def photo():
     return render_template('photo.html')
 
 
-@app.route('/get-archive-link')
-def get_archive_link():
-    buffer = BytesIO()
-
-    # Используем ZipFile для создания архива
-    with zipfile.ZipFile(buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
-        for file_path in file_paths:
-            zip_file.write(file_path, os.path.basename(file_path))  # добавляем файл в архив
-
-    # Переходим в начало буфера
-    buffer.seek(0)
-    # Здесь логика получения ссылки на архив
-    archive_link = 'https://example.com/path/to/your/archive.zip'
-    return jsonify({'link': archive_link})
-
 @app.route('/upload_photo', methods=['POST'])
 def upload_photo():
-    buffer = BytesIO()
     file = request.files['photo']
     print(file)
     if file:
