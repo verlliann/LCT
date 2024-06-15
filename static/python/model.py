@@ -52,7 +52,8 @@ class ModelAPI:
         # Подготовка выходного файла и директории
         output_dir = 'static/results/'
         os.makedirs(output_dir, exist_ok=True)
-        output_file = os.path.join(output_dir, os.path.basename(video))
+        output_file = os.path.join(output_dir, os.path.basename(video).replace('.mp4', '_output.webm'))
+
 
         # Инициализация VideoWriter
         fourcc = cv2.VideoWriter_fourcc(*'VP80')

@@ -14,9 +14,9 @@ s3 = session.client(
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = 'static/uploads/'
-RESULT_FOLDER = 'static/results/'
-TXT_FOLDER = 'static/txt/'
+UPLOAD_FOLDER = './static/uploads/'
+RESULT_FOLDER = './static/results/'
+TXT_FOLDER = './static/txt/'
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['RESULT_FOLDER'] = RESULT_FOLDER
