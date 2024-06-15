@@ -69,7 +69,7 @@ def upload_video():
         print(f"Saved video to: {file_path}")
         output_file = api.video_predict(file_path)
         print(f"Processed video saved to: {output_file}")
-        return jsonify({'output_file': url_for('result_file', filename=output_file.split('/')[2])})
+        return jsonify({'output_file': url_for('result_file', filename=os.path.basename(output_file))})
     return "No file provided", 400
 
 
