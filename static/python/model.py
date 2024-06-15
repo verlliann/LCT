@@ -55,7 +55,7 @@ class ModelAPI:
         output_file = os.path.join(output_dir, os.path.basename(video))
 
         # Инициализация VideoWriter
-        fourcc = cv2.VideoWriter_fourcc(*'H264')
+        fourcc = cv2.VideoWriter_fourcc(*'VP80')
         out = cv2.VideoWriter(output_file, fourcc, 20.0, (1280, 720))
 
         if not out.isOpened():

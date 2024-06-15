@@ -16,14 +16,20 @@ app = Flask(__name__)
 
 UPLOAD_FOLDER = 'static/uploads/'
 RESULT_FOLDER = 'static/results/'
+TXT_FOLDER = 'static/txt/'
+
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['RESULT_FOLDER'] = RESULT_FOLDER
+app.config['TXT_FOLDER'] = TXT_FOLDER
 
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
 if not os.path.exists(RESULT_FOLDER):
     os.makedirs(RESULT_FOLDER)
+
+if not os.path.exists(TXT_FOLDER):
+    os.makedirs(TXT_FOLDER)
 
 api = ModelAPI("static/python/drone_prediction_model.pt")
 
@@ -68,8 +74,13 @@ def upload_video():
         file.save(file_path)
         print(f"Saved video to: {file_path}")
         output_file = api.video_predict(file_path)
-        print(f"Processed video saved to: {output_file}")
-        return jsonify({'output_file': url_for('result_file', filename=os.path.basename(output_file))})
+        if output_file is None:
+            raise ValueError("output_file is None")
+
+        print(f"output_file: {output_file}")
+        filename = os.path.basename(output_file)
+
+        return jsonify({'output_file': url_for('result_file', filename=filename)})
     return "No file provided", 400
 
 
