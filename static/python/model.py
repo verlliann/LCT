@@ -3,32 +3,92 @@ import cv2
 import os
 
 
+def texts(results, image_height, image_width):
+    yolo_data = []
+    for result in results:
+        detection_count = result.boxes.shape[0]
+
+        for i in range(detection_count):
+            cls = int(result.boxes.cls[i].item())
+            bounding_box = result.boxes.xyxy[i].cpu().numpy()
+
+            x = float(bounding_box[0] / image_width)
+            y = float(bounding_box[1] / image_height)
+            width = float((bounding_box[2] - x) / image_width)
+            height = float((bounding_box[3] - y) / image_height)
+            yolo_data.append(f"{float(cls)} {x} {y} {width} {height}")
+    return yolo_data
+
+
 class ModelAPI:
     def __init__(self, model_path):
         self.model = YOLO(model_path)
 
-    def photo_predict(self, img):
+
+    def photo_predict(self, img, file_path):
         results = self.model(img)
+        height, width = img.shape[:2]
+        data_txt = texts(results, height, width)
+        with open('static/txt/' + str(file_path) + '.txt', 'w') as file:
+            for line in data_txt:
+                file.write(line + '\n')
         annotated_img = results[0].plot()
         return annotated_img
 
     def video_predict(self, video):
-        cap = cv2.VideoCapture(video)
-        output_file = os.path.join('static/results', "output_video.avi")
-        fourcc = cv2.VideoWriter_fourcc(*'XVID')
-        out = cv2.VideoWriter(output_file, fourcc, 20.0, (640, 480))
+        data_txt = []
+        # Проверка существования входного видеофайла
+        if not os.path.isfile(video):
+            print(f"Ошибка: Видео файл {video} не существует.")
+            return None
 
-        while cap.isOpened():
+        cap = cv2.VideoCapture(video)
+
+        # Проверка успешного открытия видео
+        if not cap.isOpened():
+            print(f"Ошибка: Невозможно открыть видео файл {video}.")
+            return None
+
+        # Подготовка выходного файла и директории
+        output_dir = 'static/results/'
+        os.makedirs(output_dir, exist_ok=True)
+        output_file = os.path.join(output_dir, os.path.basename(video))
+
+        # Инициализация VideoWriter
+        fourcc = cv2.VideoWriter_fourcc(*'H264')
+        out = cv2.VideoWriter(output_file, fourcc, 20.0, (1280, 720))
+
+        if not out.isOpened():
+            print(f"Ошибка: Невозможно открыть выходной файл {output_file} для записи.")
+            return None
+
+        frame_count = 0
+        while True:
             ret, frame = cap.read()
             if not ret:
                 break
+
             results = self.model(frame)
+            height, width = frame.shape[:2]
+            data_txt.append(texts(results, height, width))
             annotated_frame = results[0].plot()
             out.write(annotated_frame)
+            frame_count += 1
 
+        with open('static/txt/' + str(os.path.basename(video)) + '.txt', 'w') as file:
+            for line in data_txt:
+                for lines in line:
+                    file.write(lines + '\n')
         cap.release()
         out.release()
         cv2.destroyAllWindows()
+
+        if frame_count == 0:
+            print("Предупреждение: Ни один кадр не был обработан.")
+        else:
+            print(f"Обработка завершена. Всего обработано кадров: {frame_count}")
+
+        print(f"Выходной файл сохранен в {output_file}")
         return output_file
 
     def stream_camera(self):
