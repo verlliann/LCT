@@ -27,6 +27,7 @@ if not os.path.exists(TXT_FOLDER):
 
 api = ModelAPI("static/python/drone_prediction_model.pt")
 fill = []
+nums = 0
 
 @app.route('/')
 def index():
@@ -45,8 +46,9 @@ def photo():
 
 @app.route('/get_photo_data', methods=['GET'])
 def get_photo_data():
-    global fill
-    return jsonify({'num_photos': len(fill)})
+    global nums
+    return jsonify({'num_photos': nums})
+
 
 
 @app.route('/download-archive', methods=['GET'])
@@ -66,13 +68,14 @@ def download_archive():
 
     # Переходим в начало буфера
     buffer.seek(0)
-
+    fill = []
     # Отправляем архив клиенту
     return send_file(buffer, as_attachment=True, download_name='archive.zip', mimetype='application/zip')
 
 
 @app.route('/upload_photo', methods=['POST'])
 def upload_photo():
+    global nums
     global fill
     file = request.files['photo']
     print(request)
@@ -80,24 +83,26 @@ def upload_photo():
     if file:
         print(f"Received photo: {file.filename}")
         img = cv2.imdecode(np.frombuffer(file.read(), np.uint8), cv2.IMREAD_COLOR)
-        annotated_img = api.photo_predict(img, file.filename)
+        annotated_img, nums = api.photo_predict(img, file.filename)
         result_path = os.path.join(app.config['RESULT_FOLDER'], file.filename)
         cv2.imwrite(result_path, annotated_img)
         fill.append('./static/txt/' + os.path.basename(result_path)+".txt")
         print(f"Saved annotated photo to: {result_path}")
+        print(nums)
         return jsonify({'result_path': url_for('result_file', filename=file.filename)})
     return "No file provided", 400
 
 
 @app.route('/upload_video', methods=['POST'])
 def upload_video():
+    global nums
     file = request.files['video']
     if file:
         print(f"Received video: {file.filename}")
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(file_path)
         print(f"Saved video to: {file_path}")
-        output_file = api.video_predict(file_path)
+        output_file, nums = api.video_predict(file_path)
         if output_file is None:
             raise ValueError("output_file is None")
 

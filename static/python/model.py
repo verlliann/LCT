@@ -2,22 +2,25 @@ from ultralytics import YOLO
 import cv2
 import os
 
+nums = 0
 
 def texts(results, image_height, image_width):
+    global nums
     yolo_data = []
     for result in results:
-        detection_count = result.boxes.shape[0]
 
+        detection_count = result.boxes.shape[0]
         for i in range(detection_count):
+            nums = nums + 1
             cls = int(result.boxes.cls[i].item())
             bounding_box = result.boxes.xyxy[i].cpu().numpy()
-
             x = float(bounding_box[0] / image_width)
             y = float(bounding_box[1] / image_height)
             width = float((bounding_box[2] - x) / image_width)
             height = float((bounding_box[3] - y) / image_height)
             yolo_data.append(f"{float(cls)} {x} {y} {width} {height}")
-    return yolo_data
+
+    return yolo_data, nums
 
 
 class ModelAPI:
@@ -26,14 +29,17 @@ class ModelAPI:
 
 
     def photo_predict(self, img, file_path):
+        global nums
+
         results = self.model(img)
         height, width = img.shape[:2]
-        data_txt = texts(results, height, width)
+        data_txt, nums = texts(results, height, width)
         with open('static/txt/' + str(file_path) + '.txt', 'w') as file:
             for line in data_txt:
                 file.write(line + '\n')
         annotated_img = results[0].plot()
-        return annotated_img
+
+        return annotated_img, nums
 
     def video_predict(self, video):
         data_txt = []
@@ -71,7 +77,8 @@ class ModelAPI:
 
             results = self.model(frame)
             height, width = frame.shape[:2]
-            data_txt.append(texts(results, height, width))
+            ann_img, nums = texts(results, height, width)
+            data_txt.append(ann_img)
             annotated_frame = results[0].plot()
             out.write(annotated_frame)
             frame_count += 1
@@ -90,7 +97,7 @@ class ModelAPI:
             print(f"Обработка завершена. Всего обработано кадров: {frame_count}")
 
         print(f"Выходной файл сохранен в {output_file}")
-        return output_file
+        return output_file, nums
 
     def stream_camera(self):
         cap = cv2.VideoCapture(0)

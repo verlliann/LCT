@@ -231,6 +231,7 @@ body {
     width: 60%;
     background-color: #ffffff;
     border: black 1px solid;
+    border-radius: 3px;
 }
 
 .videoplayer {
@@ -301,4 +302,24 @@ body {
     background-color: #000000;
     color: #ffffff;
     top: 7%;
+}
+#button_download{
+    width: 100px;
+    height: 20px;
+}
+
+#text_date {
+    margin-left: 170px;
+}
+#button_download {
+    width: 100px;
+    border-radius: 3px;
+    background-color: black;
+    color: #ffffff;
+    font-family: "Anonymous Pro", monospace;
+    margin-left: 238px;
+}
+#line_button_info {
+    width: 350px;
+    margin-top: 15px;
 }
