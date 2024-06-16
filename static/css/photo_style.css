@@ -98,17 +98,32 @@ body {
     background-color: #000000;
     color: #ffffff;
 }
+#addButtonPhoto .webLink {
+    transition: transform 0.5s ease;
+    width: 18px;
+    height: 18px;
+}
+#addButtonPhoto:hover .webLink {
+    animation: pulse 1s infinite;
+  
+}
+@keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.18);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
 #CAM {
     position: relative;
     right: 44%;
    
 }
-.webLink:hover {
-    width: 19px;
-    height: 19px;
-    transition: all 0.2s ease-in-out;
-    
-}
+   
 .webLink { 
     margin-left: 8px;
     width: 18px;
@@ -168,11 +183,26 @@ body {
     height: 35px;
     background-color: #343434;
     border-radius: 7px;
-    opacity: 0.35;
+    /* display: none; */
+    opacity: 0;
+    transform: scale(0);
+    transition: transform 0.5s, opacity 0.5s;
   }
   .scroll-top img {
     width: 100%;
     height: 100%;
+  }
+  #scroll-top.visible {
+    position: fixed;
+    left: 20px;
+    top: 90%;
+    width: 40px;
+    height: 35px;
+    background-color: #343434;
+    border-radius: 7px;
+   
+    opacity: 0.35;
+    transform: scale(1);
   }
 .sidebar {
     position: relative; 

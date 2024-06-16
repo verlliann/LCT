@@ -14,40 +14,29 @@
 
 }
 
-
-
 body {
     font-family: "Anonymous Pro", monospace;
-    font-weight: 400;
+    font-weight: 400;  
     font-style: normal;
     overflow-x: hidden;
     margin: 0;
     position: relative;
     background-color: #E3E3E3;
 }
-
 .header {
-
     height: 55px;
     display: flex;
     align-items: center;
     background-color: #fff;
-    border-left: black 10px solid;
+    border-left: #343434 10px solid;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.5);
-
 }
-
 .logo_main {
-   position: relative;
-   top: -27.5px;
+   position: relative; 
 }
-
 .logo {
-    position: fixed;
     height: 49px;
-    width: 100px;
-
-
+    width: 122px;
     color: #ffffff;
     background-color: #7e8bff;
     padding: 3px 10px 3px 10px;
@@ -56,41 +45,50 @@ body {
 .text_Alps {
     font-family: "Fira Code", sans-serif;
     margin-left: -6%;
-    margin-top: -8%;
+    margin-top: -6%;
     font-size: 30px;
+    cursor: default;
+}
+.text_Alps a {
+    text-decoration: none;
+    color: #ffffff;
 }
 .text_Search {
     font-family: "Fira Code", sans-serif;
-    margin-top: -13%;
+    margin-top: -10%;
     font-size: 28px;
     margin-left: -5%;
-
+    cursor: default; 
 }
-
+.text_Search a {
+    text-decoration: none;
+    color: #ffffff;
+}
 .header-text {
     position: relative;
     float: left;
-    left: 137px;
+    left: 44px;
     text-align: left;
     font-size: 12px;
-
-
 }
-
+.logo_pict {
+    position: relative;
+    left: -315.6px;
+    width: 67px;
+    height: 65px;
+}
 .header-buttons {
     position: absolute;
     top: auto;
     float: left;
     right: 5%;
     font-size: 14px;
-
 }
-#addButtonVideoClick {
+#addButtonVideo {
     position: relative;
+    right: -42%;
     border: 8px solid;
-    margin-left: 25%;
-    margin-right: 25%;
-    text-align: center;
+    border-right: 36px solid;
     border-color: #000000;
     border-radius: 20px;
     background-color: #000000;
@@ -98,22 +96,48 @@ body {
 }
 #addButtonPhoto {
     position: relative;
-    right: 49%;
+    right: 54%;
 }
+#addButtonVideo .webLink {
+    transition: transform 0.5s ease;
+    width: 18px;
+    height: 18px;
+}
+#addButtonVideo:hover .webLink {
+    animation: pulse 1s infinite;
+  
+}
+@keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.18);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
 #CAM {
     position: relative;
-    right: 28%;
-
+    right: 44%;
 }
+.webLink { 
+    margin-left: 8px;
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    top: -2.9px;
+    background-size: cover;
+    transition: all 0.2s ease-in-out;
+} 
 .header-buttons button, label {
-
     cursor: pointer;
     font-family: "Anonymous Pro", monospace;
-    font-weight: 400;
+    font-weight: 400;  
     font-style: normal;
     transition: .25s ease-in-out;
 }
-
 .header-buttons button:hover {
     margin-left: 10px;
     padding: 5px 10px;
@@ -122,20 +146,47 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-family: "Anonymous Pro", monospace;
-    font-weight: 400;
+    font-weight: 400;  
     font-style: normal;
 }
-
 .container {
     position: absolute;
     display: flex;
-    height: calc(100vh - 60px); /* высота экрана минус высота хедера */
+    height: 100vw;
     margin: 0 5% 0 5%;
     width: 100%;
+    z-index: -1;         /* ?? */
 }
-
-.sidebar {
-    position: relative;
+.scroll-top {
+    position: fixed;
+    left: 20px;
+    top: 90%;
+    width: 40px;
+    height: 35px;
+    background-color: #343434;
+    border-radius: 7px;
+    /* display: none; */
+    opacity: 0;
+    transform: scale(0);
+    transition: transform 0.5s, opacity 0.5s;
+  }
+  .scroll-top img {
+    width: 100%;
+    height: 100%;
+  }
+  #scroll-top.visible {
+    position: fixed;
+    left: 20px;
+    top: 90%;
+    width: 40px;
+    height: 35px;
+    background-color: #343434;
+    border-radius: 7px;
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  .sidebar {
+    position: relative; 
     background-color: #ffffff;
     width: 25%;
     height: 100%;
@@ -144,13 +195,11 @@ body {
     z-index: -1;
 }
 
-.sidebar-title {
+.sidebar-title {     
     font-weight: bold;
     margin-bottom: 10px;
     text-align: center;
     margin-top: 10px;
-
-
 }
 
 .sidebar table {
@@ -171,7 +220,6 @@ body {
     display: flex;
     flex-direction: column;
     background-color: #ddd;
-
 }
 
 .content-title {              /* text видеозапись  */
@@ -179,17 +227,16 @@ body {
     margin-bottom: 10px;
     font-weight: 100;
     position: relative;
-    top: 3%;
+    top: 5px;
     left: 42%;
     font-weight: bold;
-
 }
-
 .video-placeholder {
     position: relative;
+    border-radius: 3px;
     left: 3.5%;
-    top: 4%;
-    height: 75%;
+    top: 14px;
+    height: 35%;
     width: 83%;
     background-color: #ffffff;
     border: black 1px solid;
@@ -253,14 +300,4 @@ body {
     width: 100%;
     overflow: hidden;
 
-}
-
-#addButtonVideo{
-    position: relative;
-    right: -34%;
-    border: 8px solid;
-    border-color: #000000;
-    border-radius: 20px;
-    background-color: #000000;
-    color: #ffffff;
 }

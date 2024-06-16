@@ -11,19 +11,18 @@ body {
     font-family: "Anonymous Pro", monospace;
     font-weight: 400;  
     font-style: normal;
-   
     margin: 0;
     padding: 0;
     position: relative;
     background-color: #E3E3E3;
-   
+    overflow-x: hidden;
 }
 .header {
     height: 55px;
     display: flex;
     align-items: center;
     background-color: #fff;
-    border-left: black 10px solid;
+    border-left: #343434 10px solid;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.5);
 }
 .logo_main {
@@ -31,7 +30,7 @@ body {
 }
 .logo {
     height: 49px;
-    width: 100px;
+    width: 122px;
     color: #ffffff;
     background-color: #7e8bff;
     padding: 3px 10px 3px 10px;
@@ -40,21 +39,37 @@ body {
 .text_Alps {
     font-family: "Fira Code", sans-serif;
     margin-left: -6%;
-    margin-top: -8%;
+    margin-top: -6%;
     font-size: 30px;
+    cursor: default;
+}
+.text_Alps a {
+    text-decoration: none;
+    color: #ffffff;
 }
 .text_Search {
     font-family: "Fira Code", sans-serif;
-    margin-top: -13%;
+    margin-top: -10%;
     font-size: 28px;
     margin-left: -5%;
+    cursor: default;
+}
+.text_Search a {
+    text-decoration: none;
+    color: #ffffff;
 }
 .header-text {
     position: relative;
     float: left;
-    left: 16px;
+    left: 44px;
     text-align: left;
     font-size: 12px;
+}
+.logo_pict {
+    position: relative;
+    left: -315.6px;
+    width: 67px;
+    height: 65px;
 }
 .header-buttons {
     position: absolute;
@@ -69,17 +84,46 @@ body {
 }
 #addButtonPhoto {
     position: relative;
-    right: 49%;
+    right: 53%;
 }
 #CAM {
     position: relative;
-    right: 33%;
+    right: 51%;
     border: 8px solid;
+    border-right: 27px solid;
     border-color: #000000;
     border-radius: 20px;
     background-color: #000000;
     color: #ffffff;
 }
+#CAM .webLink {
+    transition: transform 0.5s ease;
+    width: 18px;
+    height: 18px;
+}
+#CAM:hover .webLink {
+    animation: pulse 1s infinite;
+}
+@keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.18);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+.webLink { 
+    margin-left: 6px;
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    top: -2.9px;
+    background-size: cover;
+    transition: all 0.2s ease-in-out;
+} 
 .header-buttons button, label {
     cursor: pointer;
     font-family: "Anonymous Pro", monospace;
@@ -131,6 +175,35 @@ body {
     text-align: left;
     font-weight: 100;
 }
+.scroll-top {
+    position: fixed;
+    left: 20px;
+    top: 90%;
+    width: 40px;
+    height: 35px;
+    background-color: #343434;
+    border-radius: 7px;
+    /* display: none; */
+    opacity: 0;
+    transform: scale(0);
+    transition: transform 0.5s, opacity 0.5s;
+  }
+  .scroll-top img {
+    width: 100%;
+    height: 100%;
+  }
+  #scroll-top.visible {
+    position: fixed;
+    left: 20px;
+    top: 90%;
+    width: 40px;
+    height: 35px;
+    background-color: #343434;
+    border-radius: 7px;
+   
+    opacity: 0.35;
+    transform: scale(1);
+  }
 .content {                    /* вкладка с видео  */
     position: relative;
     width: 68.8%;
@@ -138,7 +211,6 @@ body {
     display: flex;
     flex-direction: column;
     background-color: #ddd;
-    border: 1px solid;
 }
 .content-title {              /* text видеозапись  */
     font-weight: bold;  
@@ -155,37 +227,82 @@ body {
     flex-wrap: wrap;
     justify-content: flex-start;
     align-items: flex-start;
-    gap: 10px; /* Задает отступы между элементами */
-    padding: 35px; /* Задает отступы внутри контейнера */
+    gap: 45px; /* Задает отступы между элементами */
+    margin-left: 50px;
     width: 100%;
-    height: auto;
-    margin-top: -120px;
-      
-
+    height: 18%;
+    margin-top: -90px;
+    background-color: #ddd;
+    z-index: 1;
 }
 .videoplayer {             /* video player  */
-    flex: 0 0 auto; /* Элементы не будут растягиваться или сжиматься */
-    width: calc(50% - 50px); /* Ширина элемента с учетом отступов */
-    max-height: 100%;
+    border: 2px solid;
+    background: rgb(0, 0, 0);
+    background: radial-gradient(circle, rgb(0, 0, 0) 23%, rgba(29,33,69,1) 100%);
+    border-color: #000000;
+    border-top-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+    border-bottom-left-radius: 7px;
+    width: calc(50% - 100px); /* Ширина элемента с учетом отступов */
+    height: 100%;
     margin-bottom: 10px; /* Отступ снизу для каждого видео */
+    z-index: 1;
 }
-
-.webLink { 
-    position: absolute; 
-    background:#ffffff; 
-    border: 1px solid rgb(0, 0, 0); 
-    border-radius: 10px; 
-    width: 38%;
-    height: 16%;
-    overflow: hidden; 
-    top: 1.5%; 
-    left: 3.5%; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center;  
- 
-} 
-
+.close_cam{
+    width: 28px;
+    height: 28px;
+    margin-left: -48px;
+    background-size: cover;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+.close_cam img { 
+    width: 100%;
+    height: 100%;
+}
+.frame_for_close {
+    background-color: #343434;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    width: 28px;
+    height: 120px;
+    margin-left: -42px;
+z-index: -1;
+   
+}
+.frame_for_enter {
+    background-color: #7E8BFF;
+  /*  border: 0.1px solid;
+    border-color: #000000; */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 20px;
+    width: 200px;
+    z-index: -1;
+    margin-left: -275px;
+    margin-top: -20px;
+}
+.name_cam_enter {
+    width: 185px;
+    height: 12px;
+    outline: none;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+    font-family: "Fira Code";
+    margin-left: -265px;
+    margin-top: -16px;
+    background-color: rgba(0, 0, 0, 0.0001);
+}
+.full_screen {
+    background-size: cover;
+    margin-top: 93px;
+    margin-left: -39.4px;
+    width: 23px;
+    height: 23px;
+    cursor: pointer;
+}
 .show_webLinkdButton {
     opacity: 0;
     z-index: -1;
@@ -236,29 +353,18 @@ body {
     opacity: 0;
     z-index: -1;
 }
-.dialog_2 { /*Показать диалоговое окно 2*/
-    position: absolute; 
-    background-color: #ffffff;
-    border: 1px solid rgb(0, 0, 0); 
-    opacity: 1;
-    width: 38%;
-    height: 9%;
-    top: 15%; 
-    left: 10%; 
-    display: flex;  
-    z-index: 102;
-}
+
 .showDialog2 { /*Скрыть диалоговое окно 2*/
     opacity: 0;
     z-index: -1;
 }
-.logo_blue {
+.logo_blue1 {
     background-color: #7e8bff;
     position: absolute;
     width: 2%;
     height: 17%;
 }
-.logo_black {
+.logo_black1 {
     background-color: #000000;
     position: absolute;
     width: 2.5%;
@@ -272,6 +378,7 @@ body {
     left: 94%;
 }
 .button_dialog {
+    cursor: pointer;
     height: 27%;
     background-color: black;
     border-radius: 8px;
@@ -291,14 +398,39 @@ body {
     top: 61%;
     left: 2.5%;
 }
+.dialog_2 { /*Показать диалоговое окно 2*/
+    position: absolute; 
+    background-color: #ffffff;
+    border: 1px solid rgb(0, 0, 0); 
+    opacity: 1;
+    width: 38%;
+    height: 13.5%;
+    top: 15%; 
+    left: 10%; 
+    display: flex;  
+    z-index: 102;
+}
+.logo_blue2 {
+    background-color: #7e8bff;
+    position: absolute;
+    width: 2%;
+    height: 11.2%;
+}
+.logo_black2 {
+    background-color: #000000;
+    position: absolute;
+    width: 2.5%;
+    height: 11.2%;
+    left: 2%;
+}
 .dialog_2 img {
     position: absolute;
     width: 6%;
-    height: 18%;
+    height: 12%;
     left: 94%;
 }
 .button_dialog_2 {
-    height: 27%;
+    height: 19%;
     background-color: black;
     border-radius: 8px;
     color: #ffffff;
@@ -306,9 +438,10 @@ body {
     width: 95%;
 }
 #button_dialog_get_2 {
+    cursor: pointer;
     font-family: "Fira Code";
     position: absolute;
-    top: 61%;
+    top:75%;
     left: 2.5%;
 }
 .dialog_2 .webLinkd {    /* не удалять второй слой */
@@ -326,10 +459,26 @@ body {
     left: 2.5%;
     height: 23%;
     width: 7%;
-    top: 30%;
+    top: 45%;
 }
 .webLinkdButton span { 
-    font-size: 80px;         
+    font-size: 80px;   
+    position: absolute;
+          
+}
+.webText {
+    position: absolute;
+    left: 2.5%;
+    top: 19%;
+    height: 23%;
+    outline: none;
+    width: 94%;
+    border: 2px solid;
+    border-color: #000000;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    font-family: "Fira Code";
 }
 .video-hud {
     margin:0;
@@ -371,6 +520,21 @@ body {
     border-spacing: 100px 5px;
 }
 .webLinkd {
-    width: 50%;
+    width: 10%;
     align-self: center;
 }
+.loadbar { 
+    width: 60px; 
+    height: 60px; 
+    border: 8px solid #343434; 
+    border-radius: 50%; 
+    border-left-color: #7e8bff; 
+    animation: loadbar 1.3s linear infinite; 
+    margin-left: 300px;
+    margin-bottom: 205px; /* Отступ снизу для каждого видео */
+} 
+@keyframes loadbar { 
+    100% { 
+        transform: rotate(360deg); 
+    } 
+} 
