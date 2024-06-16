@@ -20,7 +20,7 @@ mv drone.pt ./static/python
 
 Сборка Dockerfile
 ```bash
-sudo docker build -t lct_cuda05 .
+sudo docker build -t lct_cuda08 .
 ```
 
 Развертывание контейнера
