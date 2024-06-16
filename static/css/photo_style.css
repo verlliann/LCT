@@ -14,8 +14,6 @@
     
 }
 
-
-
 body {
     font-family: "Anonymous Pro", monospace;
     font-weight: 400;  
@@ -25,29 +23,20 @@ body {
     position: relative;
     background-color: #E3E3E3;
 }
-
 .header {
-    
     height: 55px;
     display: flex;
     align-items: center;
     background-color: #fff;
-    border-left: black 10px solid;
+    border-left: #343434 10px solid;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.5);
-    
 }
-
 .logo_main {
    position: relative; 
-   top: -27.5px;
 }
-
 .logo {
-    position: fixed;
     height: 49px;
-    width: 100px;
-
- 
+    width: 122px;
     color: #ffffff;
     background-color: #7e8bff;
     padding: 3px 10px 3px 10px;
@@ -56,62 +45,116 @@ body {
 .text_Alps {
     font-family: "Fira Code", sans-serif;
     margin-left: -6%;
-    margin-top: -8%;
+    margin-top: -6%;
     font-size: 30px;
+    cursor: default;
+}
+.text_Alps a {
+    text-decoration: none;
+    color: #ffffff;
 }
 .text_Search {
     font-family: "Fira Code", sans-serif;
-    margin-top: -13%;
+    margin-top: -10%;
     font-size: 28px;
     margin-left: -5%;
-   
+    cursor: default; 
 }
-
+.text_Search a {
+    text-decoration: none;
+    color: #ffffff;
+}
 .header-text {
     position: relative;
     float: left;
-    left: 137px;
+    left: 44px;
     text-align: left;
     font-size: 12px;
-   
-
 }
-
+.logo_pict {
+    position: relative;
+    left: -315.6px;
+    width: 67px;
+    height: 65px;
+}
 .header-buttons {
     position: absolute;
     top: auto;
     float: left;
     right: 5%;
     font-size: 14px;
-
 }
 #addButtonVideo {
     position: relative;
-    right: -34%;
+    right: -46.7%;
 }
 #addButtonPhoto {
     position: relative;
-    right: 49%;
+    right: 46%;
     border: 8px solid;
+    border-right: 36px solid;
     border-color: #000000;
     border-radius: 20px;
     background-color: #000000;
     color: #ffffff;
 }
+#addButtonPhoto .webLink {
+    transition: transform 0.5s ease;
+    width: 18px;
+    height: 18px;
+}
+#addButtonPhoto:hover .webLink {
+    animation: pulse 1s infinite;
+  
+}
+@keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.18);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
 #CAM {
     position: relative;
-    right: 28%;
-
-}
-.header-buttons button, label {
+    right: 44%;
    
+}
+   
+.webLink { 
+    margin-left: 8px;
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    top: -2.9px;
+    background-size: cover;
+    transition: all 0.2s ease-in-out;
+   /* cursor: pointer;
+    position: absolute; 
+    border: 5px solid;
+    border-color: #000000;
+    border-radius: 20px;
+    background-color: #050516;
+    width: 7%;
+    height: 22px;
+    font-size: 14px;
+    overflow: hidden; 
+    left: 925px;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;  
+    color: #ffffff; */
+} 
+.header-buttons button, label {
     cursor: pointer;
     font-family: "Anonymous Pro", monospace;
     font-weight: 400;  
     font-style: normal;
     transition: .25s ease-in-out;
 }
-
 .header-buttons button:hover {
     margin-left: 10px;
     padding: 5px 10px;
@@ -127,11 +170,40 @@ body {
 .container {
     position: absolute;
     display: flex;
-    height: calc(100vh - 60px); /* высота экрана минус высота хедера */
+    height: 100vw;
     margin: 0 5% 0 5%;
     width: 100%;
+    z-index: -1;         /* ?? */
 }
-
+.scroll-top {
+    position: fixed;
+    left: 20px;
+    top: 90%;
+    width: 40px;
+    height: 35px;
+    background-color: #343434;
+    border-radius: 7px;
+    /* display: none; */
+    opacity: 0;
+    transform: scale(0);
+    transition: transform 0.5s, opacity 0.5s;
+  }
+  .scroll-top img {
+    width: 100%;
+    height: 100%;
+  }
+  #scroll-top.visible {
+    position: fixed;
+    left: 20px;
+    top: 90%;
+    width: 40px;
+    height: 35px;
+    background-color: #343434;
+    border-radius: 7px;
+   
+    opacity: 0.35;
+    transform: scale(1);
+  }
 .sidebar {
     position: relative; 
     background-color: #ffffff;
@@ -164,12 +236,11 @@ body {
 
 .content {                    /* вкладка с видео  */
     position: relative;
-    width: 77.4%;
+    width: 68.9%;
     height: 100%;
     display: flex;
     flex-direction: column;
     background-color: #ddd;
-   
 }
  
 .content-title {              /* text видеозапись  */
@@ -177,20 +248,21 @@ body {
     margin-bottom: 10px;
     font-weight: 100;
     position: relative;
-    top: 3%;
+    top: 1.2%;
     left: 42%;
     font-weight: bold;
-    
 }
 
 .video-placeholder {       
     position: relative;
-    left: 3.5%;
-    top: 4%;
-    height: 75%;
-    width: 83%;
+    left: 21%;
+    top: 1.8%;
+    height: 30%;
+    width: 60%;
     background-color: #ffffff;
     border: black 1px solid;
+    border-radius: 3px;
+    border-radius: 3px;
 }
 
 .videoplayer {
@@ -236,81 +308,6 @@ body {
     width:30px;
     border-radius:0 0 100px 100px;
     }
-
- /*
-.buttons_video {
-    position: static;
-    left: 3.5%;
-    top: 9%;
-    width: 7.8%;
-    height: 64%;
-    background-color: #000000;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-
-}
-.pause {
-    position: relative;
-    left: 59%;
-    top: 20%;
-    background-color: rgba(255, 0, 0, 0); 
-    border-color: rgba(255, 9, 9, 0);
-    width: 50px;
-    height: 40px;
-}
-#pause{
-    width: 100%;
-    height: 100%;
-}
-.full_screen {
-    position: relative;
-    left: 91%;
-    top: -12%;
-    background-color: rgba(0, 0, 0, 0.0); 
-    border-color: rgba(0, 0, 0, 0);
-    width: 42px;
-    height: 42px;
-}
-#full_screen{
-    width: 80%;
-    height: 80%;
-}
-.increase_screen {
-    position: relative;
-    left: 70%;
-    top: 18%;
-    background-color: rgba(0, 0, 0, 0.0); 
-    border-color: rgba(0, 0, 0, 0);
-    width: 50px;
-    height: 40px;
-}
-#increase_screen {
-    width: 100%;
-    height: 100%;
-}
-.text_sl {
-    position: relative;
-    left: 77.9%;
-    font-size: 26px;
-    top: -15%;
-    font-weight: 500;
-    
-}
-.descrease_screen {
-    position: relative;
-    left: 75%;
-    top: -43.2%;
-    background-color: rgba(0, 0, 0, 0.0); 
-    border-color: rgba(0, 0, 0, 0);
-    width: 50px;
-    height: 40px;
-}
-#descrease_screen {
-    width: 100%;
-    height: 100%;
-}
-*/
-
 #history {
     border-collapse: separate;
     border-spacing: 100px 5px;
@@ -326,13 +323,34 @@ body {
     overflow: hidden;
 }
 #addButtonPhotoClick {
-    position: relative;
+    position: fixed;
     border: 8px solid;
-    margin-left: 25%;
+    margin-left: 5%;
     margin-right: 25%;
     text-align: center;
     border-color: #000000;
     border-radius: 20px;
     background-color: #000000;
     color: #ffffff;
+    top: 7%;
+}
+#button_download{
+    width: 100px;
+    height: 20px;
+}
+
+#text_date {
+    margin-left: 170px;
+}
+#button_download {
+    width: 100px;
+    border-radius: 3px;
+    background-color: black;
+    color: #ffffff;
+    font-family: "Anonymous Pro", monospace;
+    margin-left: 238px;
+}
+#line_button_info {
+    width: 350px;
+    margin-top: 15px;
 }

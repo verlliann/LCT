@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alps Search</title>
-   
     <link rel="preconnect" href="https://fonts.googleapis.com"> 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
     <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Cactus+Classical+Serif&display=swap" rel="stylesheet">
@@ -17,41 +16,31 @@
 </head>
 <body>
     <div class="header">
-        <div class="logo_main"> 
+        <div class="logo_main" id="logo_main"> 
             <div class="logo">
-                <div class="text_Alps">Alps_</div> 
-                <div class="text_Search">Search</div>
+                <div class="text_Alps" style="cursor: pointer;">Alps_</div> 
+                <div class="text_Search"  style="cursor: pointer;">Search</div>
             </div> 
         </div>
         <div class="header-text">Система мониторинга воздушного пространства<br>2024, Test version</div>
-
+        <img src="/static/images/logo_white.png" class="logo_pict">
         <div class="header-buttons">
             <label for="CAM" id="CAM" onclick="location.href='/'">Онлайн-камеры</label>
-            <label for="addVideo" id="addButtonVideo" onclick="location.href='/video'">Видеозапись</label>
-            <label id="addButtonPhoto" onclick="location.href='/photo'">Фотография</label>
+            <label for="addVideo" id="addButtonVideo" >Видеозапись<img  src="/static/images/add.png" class="webLink" id="webLinkdButton"></label>
+            <input type="file" accept="photo/*" id="addVideo" name="addVideo" multiple hidden>
+            <label for="" id="addButtonPhoto" onclick="location.href='/photo'">Фотография</label> <!--ДОБАВИТЬ ФОТО!!!-->
 
         </div>
     </div>
 
+
     <div class="container">
-        <div class="sidebar">
+        <button class="scroll-top" id="scroll-top"><img src="/static/images/up.png"> </button> <!-- кпнока наверх-->
+        <div class="sidebar" id="sidebar">
             <div class="sidebar-title">Информация об объектах</div>
-            <table>
-                <thead>
-                    <tr>
-                        <th id="text_time">Время </th>
-                        <th>Тип</th>
-                        <th>Приоритет</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Здесь будут строки с данными -->
-                </tbody>
-            </table>
+            <hr align="center" width="95%" size="1" color="black" style="margin-top: 17px; margin-bottom: 17px;"/>
         </div>
         <div class="content">
-            <label for="addVideo" id="addButtonVideoClick">Добавить видео</label>
-            <input type="file" accept="video/*" id="addVideo" name="addVideo" multiple hidden>
             <div class="content-title" id="">Видеозапись</div>
             <div class="video-placeholder" id="video-placeholder">  <!--Форма\рамка для плеера-->
             </div>

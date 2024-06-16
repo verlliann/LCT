@@ -4,67 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alps Search</title>
+    <link rel="stylesheet" href="/static/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com"> 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
     <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Cactus+Classical+Serif&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Sundanese:wght@400..700&family=Quicksand:wght@300..700&family=Reddit+Mono:wght@200..900&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/style.css">
-    <script src="/static/js/main.js"></script>
-</head> 
-<body>    <!-- https://rtsp.me/embed/e3kHdzed/-->
+   <script src="/static/js/main.js"></script>
+</head>
+<body>
     <div class="header">
-
-
-        <div class="logo_main"> 
-           
+        <div class="logo_main" id="logo_main">
             <div class="logo">
-                <div class="text_Alps">Alps_</div> 
-                <div class="text_Search">Search</div>
-            </div> 
+                <div class="text_Alps" style="cursor: pointer;">Alps_</div>
+                <div class="text_Search" style="cursor: pointer;">Search</div>
+            </div>
         </div>
         <div class="header-text">Система мониторинга воздушного пространства<br>2024, Test version</div>
+        <img src="/static/images/logo_white.png" class="logo_pict" id="logo_pict">
         <div class="header-buttons">
-            <label for="CAM" id="CAM">Онлайн-камеры</label>
+            <label for="CAM" id="CAM">Онлайн-камеры<img src="/static/images/add.png" class="webLink" id="webLinkdButton"> </label>
             <label id="addButtonVideo" onclick="location.href='/video'">Видеозапись</label>
-
             <label id="addButtonPhoto" onclick="location.href='/photo'">Фотография</label>
         </div>
     </div>
     <div class="container">
+        <button class="scroll-top" id="scroll-top"><img src="/static/images/up.png"> </button>
         <div class="sidebar">
             <div class="sidebar-title">Замеченные объекты</div>
-            <table>
-                <thead>
-                    <tr>
-                            
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            <hr align="center" width="95%" size="1" color="black" style="margin-top: 17px; margin-bottom: 17px;"/>
         </div>
         <div class="content">
-            <div class="webLink" id="webLinkdButton"> <span>+</span></div> <!--  show_webLinkdButton -->
-            <div class="showDialog1" id="dialog_1"> 
-                <div class="logo_blue"></div>
-                <div class="logo_black"></div>
-                <img src="static/images/close.png" id="close1"> </img>
+            <div class="showDialog1" id="dialog_1">
+                <div class="logo_blue1"></div>
+                <div class="logo_black1"></div>
+                <img src="/static/images/close.png" id="close1">
                 <button class="button_dialog" id="button_dialog_link"> Ссылка на видеокамеру </button>
                 <button class="button_dialog" id="button_dialog_autoriz"> Данные авторизации </button>
             </div>
             <div class="showDialog2" id="dialog_2">
-                <div class="logo_blue"></div>
-                <div class="logo_black"></div>
-                <img src="static/images/close.png" id="close2"> </img>
+                <div class="logo_blue2"></div>
+                <div class="logo_black2"></div>
+                <img src="/static/images/close.png" id="close2">
                 <input type="text" id="webLinkd" class="webLinkd" placeholder="Ссылка">
+                <input type="text" id="webText" class="webText" placeholder="Название камеры" maxlength="22">
                 <button class="button_dialog_2" id="button_dialog_get_2"> Добавить </button>
             </div>
-            <div class="video-placeholder" id="video-placeholder">
-             <iframe class='videoplayer' id="videoplayer" allowfullscreen>      </iframe>  
-            </div> 
+            <div class="video-placeholder" id="video-placeholder"></div>
         </div>
         <div class="showFocus_screen2" id="focus_screen2"></div>
     </div>
-        <div class="showFocus_screen" id="focus_screen"></div> 
+    <div class="showFocus_screen" id="focus_screen"></div>
 </body>
 </html>
