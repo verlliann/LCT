@@ -102,28 +102,12 @@ document.addEventListener("DOMContentLoaded", function() {
         let button = document.createElement('button');
         button.textContent = 'Скачать';
         button.id = 'button_download';
+        button.addEventListener('click', async function() {
+            window.location.href = '/download-archive';
+        });
         document.getElementById('sidebar').appendChild(button);
 
-        button.addEventListener('click', async function() {
-            try {
-                let response = await fetch('/download-archive');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
 
-                let blob = await response.blob();
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.style.display = 'none';
-                a.href = url;
-                a.download = 'archive.zip';
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-            } catch (error) {
-                console.error('Error fetching archive link:', error);
-            }
-        });
 
         document.getElementById('sidebar').appendChild(document.createElement('br'));
         let hr = document.createElement('hr');

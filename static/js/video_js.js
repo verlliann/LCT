@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function() {
         let text3 = document.createElement('label');
         text3.id = 'text2';
         text3.style = 'margin-left: 15px;';
-        text3.textContent = "Загружено изображений:";
+        text3.textContent = "Загружено видео:";
         document.getElementById('sidebar').appendChild(text3);
 
         let label_nums = document.createElement('label');
@@ -58,33 +58,6 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('sidebar').appendChild(document.createElement('br'));
         document.getElementById('sidebar').appendChild(document.createElement('br'));
 
-        try {
-            let response = await fetch('/get_photo_data', {
-                method: 'GET',
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-
-            let data = await response.json();
-
-            let text4 = document.createElement('label');
-            text4.textContent = "Изображения с объектами: ";
-            text4.id = 'text3';
-            text4.style = 'margin-left: 15px;';
-            document.getElementById('sidebar').appendChild(text4);
-
-            let label_nums2 = document.createElement('label');
-            label_nums2.style = 'margin-left: 100px;';
-            label_nums2.textContent = String(data.num_photos);
-            document.getElementById('sidebar').appendChild(label_nums2);
-
-            document.getElementById('sidebar').appendChild(document.createElement('br'));
-            document.getElementById('sidebar').appendChild(document.createElement('br'));
-        } catch (error) {
-            console.error('Error fetching photo data:', error);
-        }
 
         let label_for_button = document.createElement('label');
         label_for_button.textContent = 'Файл:';

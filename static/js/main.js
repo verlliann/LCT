@@ -301,4 +301,8 @@ document.addEventListener("DOMContentLoaded", function() {
     logo_go_me1.addEventListener('click', function() {
         window.open('/');
       });
+
+    
+
+
 });

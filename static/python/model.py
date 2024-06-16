@@ -2,59 +2,63 @@ from ultralytics import YOLO
 import cv2
 import os
 
-nums = 0
 
 def texts(results, image_height, image_width):
-    global nums
     yolo_data = []
     for result in results:
+
         detection_count = result.boxes.shape[0]
         for i in range(detection_count):
-            nums += 1
             cls = int(result.boxes.cls[i].item())
             bounding_box = result.boxes.xyxy[i].cpu().numpy()
             x = float(bounding_box[0] / image_width)
             y = float(bounding_box[1] / image_height)
-            width = float((bounding_box[2] - bounding_box[0]) / image_width)
-            height = float((bounding_box[3] - bounding_box[1]) / image_height)
+            width = float((bounding_box[2] - x) / image_width)
+            height = float((bounding_box[3] - y) / image_height)
             yolo_data.append(f"{float(cls)} {x} {y} {width} {height}")
 
-    return yolo_data, nums
+    return yolo_data
+
 
 class ModelAPI:
     def __init__(self, model_path):
         self.model = YOLO(model_path)
 
+
     def photo_predict(self, img, file_path):
-        global nums
         results = self.model(img)
         height, width = img.shape[:2]
-        data_txt, nums = texts(results, height, width)
-        with open(f'static/txt/{file_path}.txt', 'w') as file:
+        data_txt = texts(results, height, width)
+        with open('static/txt/' + str(file_path) + '.txt', 'w') as file:
             for line in data_txt:
                 file.write(line + '\n')
         annotated_img = results[0].plot()
-        return annotated_img, nums
+
+        return annotated_img
 
     def video_predict(self, video):
-        global nums
-        nums = 0
         data_txt = []
+        # Проверка существования входного видеофайла
         if not os.path.isfile(video):
             print(f"Ошибка: Видео файл {video} не существует.")
             return None
 
         cap = cv2.VideoCapture(video)
+
+        # Проверка успешного открытия видео
         if not cap.isOpened():
             print(f"Ошибка: Невозможно открыть видео файл {video}.")
             return None
 
+        # Подготовка выходного файла и директории
         output_dir = 'static/results/'
         os.makedirs(output_dir, exist_ok=True)
         output_file = os.path.join(output_dir, os.path.basename(video))
 
+        # Инициализация VideoWriter
         fourcc = cv2.VideoWriter_fourcc(*'VP80')
         out = cv2.VideoWriter(output_file, fourcc, 20.0, (1280, 720))
+
         if not out.isOpened():
             print(f"Ошибка: Невозможно открыть выходной файл {output_file} для записи.")
             return None
@@ -65,15 +69,19 @@ class ModelAPI:
             if not ret:
                 break
 
+            # Проверка размера фрейма
+            if frame.shape[1] != 1280 or frame.shape[0] != 720:
+                frame = cv2.resize(frame, (1280, 720))  # Изменение размера фрейма
+
             results = self.model(frame)
             height, width = frame.shape[:2]
-            ann_img, nums = texts(results, height, width)
+            ann_img = texts(results, height, width)
             data_txt.append(ann_img)
             annotated_frame = results[0].plot()
             out.write(annotated_frame)
             frame_count += 1
 
-        with open(f'static/txt/{os.path.basename(video)}.txt', 'w') as file:
+        with open('static/txt/' + str(os.path.basename(video)) + '.txt', 'w') as file:
             for line in data_txt:
                 for lines in line:
                     file.write(lines + '\n')
@@ -85,7 +93,9 @@ class ModelAPI:
             print("Предупреждение: Ни один кадр не был обработан.")
         else:
             print(f"Обработка завершена. Всего обработано кадров: {frame_count}")
-        return output_file, nums
+
+        print(f"Выходной файл сохранен в {output_file}")
+        return output_file
 
     def stream_camera(self):
         cap = cv2.VideoCapture(0)
