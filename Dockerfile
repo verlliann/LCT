@@ -31,6 +31,12 @@ RUN pip install --upgrade pip
 
 RUN pip install -r requirements.txt
 
+# RUN apt-get install -y ffmpeg libx264-dev
+
+RUN apt-get update && \
+    apt-get install -y ffmpeg libx264-dev
+
+RUN pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 
 COPY . .
 
