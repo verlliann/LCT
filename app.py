@@ -1,8 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, Response, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, jsonify, Response, send_from_directory, send_file
 from static.python.model import ModelAPI
 import cv2
 import os
 import numpy as np
+from io import BytesIO
+import zipfile
 
 app = Flask(__name__)
 
@@ -24,7 +26,7 @@ if not os.path.exists(TXT_FOLDER):
     os.makedirs(TXT_FOLDER)
 
 api = ModelAPI("static/python/drone_prediction_model.pt")
-
+fill = []
 
 @app.route('/')
 def index():
@@ -41,9 +43,39 @@ def photo():
     return render_template('photo.html')
 
 
+@app.route('/get_photo_data', methods=['GET'])
+def get_photo_data():
+    global fill
+    return jsonify({'num_photos': len(fill)})
+
+
+@app.route('/download-archive', methods=['GET'])
+def download_archive():
+    global fill
+    print(fill)  # Отладочная информация
+
+    # Создаем объект BytesIO для хранения данных архива в памяти
+    buffer = BytesIO()
+
+    # Используем ZipFile для создания архива
+    with zipfile.ZipFile(buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+        for file_path in fill:
+            if os.path.isfile(file_path):
+                rel_path = os.path.basename(file_path)
+                zip_file.writestr(rel_path, open(file_path, 'rb').read())
+
+    # Переходим в начало буфера
+    buffer.seek(0)
+
+    # Отправляем архив клиенту
+    return send_file(buffer, as_attachment=True, download_name='archive.zip', mimetype='application/zip')
+
+
 @app.route('/upload_photo', methods=['POST'])
 def upload_photo():
+    global fill
     file = request.files['photo']
+    print(request)
     print(file)
     if file:
         print(f"Received photo: {file.filename}")
@@ -51,7 +83,7 @@ def upload_photo():
         annotated_img = api.photo_predict(img, file.filename)
         result_path = os.path.join(app.config['RESULT_FOLDER'], file.filename)
         cv2.imwrite(result_path, annotated_img)
-        #s3.upload_file(result_path, 'lct', file.filename)
+        fill.append('./static/txt/' + os.path.basename(result_path)+".txt")
         print(f"Saved annotated photo to: {result_path}")
         return jsonify({'result_path': url_for('result_file', filename=file.filename)})
     return "No file provided", 400
