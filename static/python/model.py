@@ -53,8 +53,7 @@ class ModelAPI:
         # Подготовка выходного файла и директории
         output_dir = 'static/results/'
         os.makedirs(output_dir, exist_ok=True)
-        output_file = os.path.join(output_dir, os.path.basename(video))
-
+        output_file = os.path.join(output_dir, os.path.basename(video).replace('.mp4', '.webm'))
         # Инициализация VideoWriter
         fourcc = cv2.VideoWriter_fourcc(*'VP80')
         out = cv2.VideoWriter(output_file, fourcc, 20.0, (1280, 720))
@@ -81,7 +80,7 @@ class ModelAPI:
             out.write(annotated_frame)
             frame_count += 1
 
-        with open('static/txt/' + str(os.path.basename(video)) + '.txt', 'w') as file:
+        with open('static/txt/' + str(os.path.basename(output_file)) + '.txt', 'w') as file:
             for line in data_txt:
                 for lines in line:
                     file.write(lines + '\n')
