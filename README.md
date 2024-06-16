@@ -6,7 +6,7 @@
 git clone https://github.com/verlliann/LCT.git
 ```
 
-В связи с ограничение размера загрузчки файлов на GitHub. Необходимо сказать модель по адресу https://disk.yandex.ru/d/qU_n3h_2Rd8WEw.
+В связи с ограничение размера загрузчки файлов на GitHub. Необходимо скачать модель по адресу https://disk.yandex.ru/d/qU_n3h_2Rd8WEw.
 
 После скачивания требуется разархивировать архив.
 ```bash
